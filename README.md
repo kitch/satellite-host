@@ -43,7 +43,7 @@ you will need outbound access to the public internet
 
 
 ## Host Virtualization and Setup
-You will need to download rhel-server-7.9-x86_64-kvm.qcow2 and place a copy of it named sat-base.qcow2 in the /host/satellite directory. Once you have that image in place then you will also need to place a copy of your satellite host attach script in /root/host-attach.sh Make sure that you modify the host attach script to include:
+You will need to download rhel-server-7.9-x86_64-kvm.qcow2 and place a copy of it named sat-base.qcow2 in the /host/satellite directory. Once you have that image in place then you will also need to place a copy of your satellite host attach script in /home/satellite/host-attach.sh Make sure that you modify the host attach script to include:
 
 ```
 subscription-manager register --force --username=<RH Username> --password=<RH Password>
