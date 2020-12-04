@@ -41,6 +41,6 @@ for i in {1..3}; do cp -f /home/satellite/sat-base.qcow2 /home/satellite/$(hostn
 for i in {1..3}; do virt-customize --hostname $(hostname)-sat$i -a /home/satellite/$(hostname)-sat$i-boot.qcow2; done
 
 # Launch VMs
-for i in {1..1}; do virt-install --name $(hostname)-sat$i --network bridge=br0 --memory 16384 --vcpus 5 --disk /home/satellite/$(hostname)-sat$i-boot.qcow2 --disk path=/home/satellite/$(hostname)-sat$i-data.qcow2,size=100 --import --os-variant rhel7 --wait 0 --noautoconsole; done
-for i in {2..3}; do virt-install --name $(hostname)-sat$i --network bridge=br0 --memory 8192 --vcpus 4 --disk /home/satellite/$(hostname)-sat$i-boot.qcow2 --disk path=/home/satellite/$(hostname)-sat$i-data.qcow2,size=100 --import --os-variant rhel7 --wait 0 --noautoconsole; done
+for i in {1..1}; do virt-install --name $(hostname)-sat$i --autostart --network bridge=br0 --memory 16384 --vcpus 5 --disk /home/satellite/$(hostname)-sat$i-boot.qcow2 --disk path=/home/satellite/$(hostname)-sat$i-data.qcow2,size=100 --import --os-variant rhel7 --wait 0 --noautoconsole; done
+for i in {2..3}; do virt-install --name $(hostname)-sat$i --autostart --network bridge=br0 --memory 8192 --vcpus 4 --disk /home/satellite/$(hostname)-sat$i-boot.qcow2 --disk path=/home/satellite/$(hostname)-sat$i-data.qcow2,size=100 --import --os-variant rhel7 --wait 0 --noautoconsole; done
 
