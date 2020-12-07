@@ -22,7 +22,7 @@ subscription-manager repos --enable rhel-7-server-extras-rpms
 rpm --import /etc/pki/rpm-gpg/*
 
 # Install KVM tools
-yum install -y libguestfs-tools-c
+yum install -y libguestfs-tools-c libvirt-client
 
 # Setup KVM Storage Pool
 virsh pool-define-as satellite dir - - - - "/home/satellite/"
