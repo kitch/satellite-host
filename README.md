@@ -64,3 +64,36 @@ API_URL="https://origin.us-east.containers.cloud.ibm.com/"
 
 ## Future
 I have some scripting that I am working on that will bake all of this voodoo into a bootable image that you can run on any hardware of the right spec and it will automatically image RHEL onto the baremetal and virtualize it.
+
+# Creating custom DVD image
+Process is largely based on https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/installation_guide/sect-simple-install-kickstart
+
+1) put your src RHEL DVD and KVM images in /root/ such as:
+-rwxr-x---.  1 root root 4526702592 Dec  1 11:30 rhel-server-7.9-x86_64-dvd.iso
+-rwxr-x---.  1 root root  827777024 Dec  2 23:25 rhel-server-7.9-x86_64-kvm.qcow2
+2) mount the DVD image `mount -o loop /root/rhel-server-7.9-x86_64-dvd.iso /mnt/`
+3) create working directory:
+```
+mkdir /root/rhel-install/
+shopt -s dotglob
+cp -avRf /mnt/* /root/rhel-install/
+```
+4) `umount /mnt/`
+5) `cp /root/anaconda-ks.cfg /root/rhel-install/`
+6) `mkdir /root/rhel-install/satellite`
+7) Edit satellite-host.sh to include your Red hat username/password
+8) copy runonce.sh and satellite-host.sh into /root/rhel-install/satellite
+9) copy your kvm RH image to /root/rhel-install/satellite/sat-base.qcow2
+10) copy you satellie addHost.sh script to /root/rhel-install/satellite/host-attach.sh (dont forget to add the rh subscription manager updates to this script)
+11) run
+```
+mkisofs -untranslated-filenames -volid "RHEL-7.9 Server.x86_64" -J -joliet-long -rational-rock -translation-table -input-charset utf-8 -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e images/efiboot.img -no-emul-boot -o /root/rhel-ks.iso -graft-points /root/rhel-install/
+```
+12) run `isohybrid --uefi /root/rhel-ks.iso`
+13) run
+```
+findmnt /dev/sdb
+umount /mnt/iso
+
+dd if=/root/rhel-ks.iso of=/dev/sdb bs=1M
+```
