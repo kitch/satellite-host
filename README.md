@@ -1,6 +1,8 @@
 # satellite-host
 
-This repo is used to create a satellite-host usb key.
+This repo provides some rough guidelines on the IBM Cloud Satellite deployment from this video https://youtu.be/8WNjwlN5gMk
+
+In the video Intel NUC9VXQNX systems were used.
 
 ## System Configuration
 
